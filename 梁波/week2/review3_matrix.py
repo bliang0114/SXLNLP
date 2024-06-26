@@ -39,9 +39,9 @@ def matrix_operation():
     shape_m = matrix1.shape[0]
     shape_n = matrix1.shape[1]
     shape_p = matrix3.shape[1]
-    matrix = np.empty((shape_m, shape_p))
+    matrix = np.empty((shape_m, shape_p), dtype=int)
     for m in range(shape_m):
-        row = np.empty(shape_p)
+        row = np.empty(shape_p, dtype=int)
         for p in range(shape_p):
             data = int()
             for n in range(shape_n):
