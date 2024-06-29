@@ -62,7 +62,7 @@ class CrossEntropyModel(torch.nn.Module):
         定义前向传播过程
         """
         y_pred = self.linear(x)  # 通过线性层，获取预测值
-        y_pred = self.activation(y_pred) # 使用了激活函数，反而误差更大？
+        # y_pred = self.activation(y_pred) # 使用了激活函数，反而误差更大？
         if y is not None:
             # print("y_pred:", y_pred.shape, "\ny_true:", y.shape)
             return self.loss(y_pred, y)  # 预测值和真实值计算损失
@@ -104,17 +104,19 @@ def main():
     return
 
 
+test_sample_num = 100
+eva_x, eva_y = build_dataset(test_sample_num)
 def evaluate(model):
     '''将模型设置为评估模式（evaluation mode）。在评估模式下，模型的权重不会被更新，而且不会记录梯度'''
     model.eval()
-    test_sample_num = 100
-    x, y = build_dataset(test_sample_num)
+    # test_sample_num = 100
+    # x, y = build_dataset(test_sample_num)
     correct, wrong = 0, 0
     with torch.no_grad():
-        y_pred = model(x)  # 模型预测
-        for y_p, y_t in zip(y_pred, y):  # 与真实标签进行对比
+        y_pred = model(eva_x)  # 模型预测
+        for y_p, y_t in zip(y_pred, eva_y):  # 与真实标签进行对比
             if torch.argmax(y_p) == int(y_t):
-                correct += 1  # 负样本判断正确
+                correct += 1
             else:
                 wrong += 1
     print("正确预测个数：%d, 正确率：%f" % (correct, correct / (correct + wrong)))
